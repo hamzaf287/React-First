@@ -7,6 +7,9 @@ export default function Form() {
     age: "",
   });
   const [savedData, setSavedData] = useState([]);
+  const [editData, setEditData] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
+
   useEffect(() => {
     const storedData = localStorage.getItem("data");
     if (storedData) {
@@ -19,10 +22,19 @@ export default function Form() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const updatedData = [...savedData, formData];
-    setSavedData(updatedData);
-    setFormData({ name: "", email: "", age: "" });
-    localStorage.setItem("data", JSON.stringify(updatedData));
+    if (editData) {
+      const updatedData = [...savedData];
+      updatedData[editIndex] = formData;
+      setSavedData(updatedData);
+      setFormData({ name: "", email: "", age: "" });
+      localStorage.setItem("data", JSON.stringify(updatedData));
+      setEditData(false);
+    } else {
+      const updatedData = [...savedData, formData];
+      setSavedData(updatedData);
+      setFormData({ name: "", email: "", age: "" });
+      localStorage.setItem("data", JSON.stringify(updatedData));
+    }
   }
 
   function deleteData(index) {
@@ -30,7 +42,12 @@ export default function Form() {
     setSavedData(updatedData);
     localStorage.setItem("data", JSON.stringify(updatedData));
   }
-
+  function editingData(index) {
+    const item = savedData[index];
+    setFormData(item);
+    setEditData(true);
+    setEditIndex(index);
+  }
   return (
     <div className="container-fluid row mt-5">
       <div className="col">
@@ -77,7 +94,7 @@ export default function Form() {
             />
           </div>
           <button type="submit" className="btn btn-primary">
-            Submit
+            {editData ? "Update" : "Submit"}
           </button>
         </form>
       </div>
@@ -92,6 +109,7 @@ export default function Form() {
                 <th scope="col">Email</th>
                 <th scope="col">Age</th>
                 <th scope="col">Delete</th>
+                <th scope="col">Update</th>
               </tr>
             </thead>
             <tbody>
@@ -101,6 +119,7 @@ export default function Form() {
                   data={data}
                   deleteData={deleteData}
                   index={index}
+                  editing={editingData}
                 />
               ))}
             </tbody>
