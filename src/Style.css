@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.form-section,
+.preview-section {
+  flex: 1;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.form-section {
+  background-color: #f0f0f0;
+}
+
+.preview-section {
+  background-color: #ffffff;
+  border-left: 2px solid #ccc;
+}
+
+form label {
+  display: block;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box;
+}
