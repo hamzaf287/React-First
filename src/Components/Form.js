@@ -81,16 +81,32 @@ export default function Form() {
           </button>
         </form>
       </div>
-      <div className="col ">
-        {savedData.map((data, index) => (
-          <SavedItems
-            key={index}
-            data={data}
-            deleteData={deleteData}
-            index={index}
-          />
-        ))}
-      </div>
+      {savedData.length > 0 && (
+        <div className="col">
+          <h4>Saved Data</h4>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Age</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {savedData.map((data, index) => (
+                <SavedItems
+                  key={index}
+                  data={data}
+                  deleteData={deleteData}
+                  index={index}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
